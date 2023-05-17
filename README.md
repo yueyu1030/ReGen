@@ -59,6 +59,8 @@ Some Key Hyperparameters:
 - `args.topN`: The topN used in KNN search (usually set to 50-100).
 - `args.round`: The retrieval rounds. Set to 0 for the first rounds (using label name/template for retrieval only) and 1,2,... for later rounds.
 
+**Note**: in principle, our model is compatible with any dense retrievers (after properly training). If you want to use your own dense retrieval model, please make sure that the dense retrieval model also use the embedding of [CLS] token as sequence embeddings. Otherwise, you may need to modify the code in embedding generation parts to make sure the embedding generated is *correct*.
+
 ## Classification Step
 ### Noisy Data Removal
 See the code from the `filter` folder. The example command should be
