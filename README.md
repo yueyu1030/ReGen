@@ -26,18 +26,33 @@ The test set of {AG News, DBPedia, Yahoo, IMDB} can be easily find at huggingfac
 
 
 ### Data Format
+The `_id` stands for the class id, and `text` is the content of the document.
 
+Example (for SST-2 Dataset):
+```
+{
+    {"_id": 0, "text": "It seems to me the film is about the art of ripping people off without ever letting them consciously know you have done so."}
+    {"_id": 0, "text": "In the end , the movie collapses on its shaky foundation despite the best efforts of director joe carnahan."}
+    {"_id": 1, "text": "Despite its title , punch-drunk love is never heavy-handed ."}
+    {"_id": 1, "text": "Though only 60 minutes long , the film is packed with information and impressions."}
+    ...
+}
+
+```
 # Model 
+## Contrastive Pretraining Step
+We adapt the code from [COCO-DR](https://github.com/OpenMatch/COCO-DR/tree/main/COCO) for pretraining. Please check the original implementation for details. 
+[TODO]: Will release the pretrained model soon.
 
-# Retrieval Step
-## Embedding Generation
+## Retrieval Step
+### Embedding Generation
 See the code from the  `retrieval` folder, `gen_embedding.sh` for details.
 
-## Retrieval
+### Retrieval
 See the code from the  `retrieval` folder, `gen_embedding.sh` for details.
 
-# Classification Step
-## Noisy Data Removal
+## Classification Step
+### Noisy Data Removal
 See the code from the `filter` folder. The example command should be
 ```
 train_cmd="CUDA_VISIBLE_DEVICES=0 python3 inference.py --task=${task} \
@@ -57,7 +72,7 @@ Here
 - `task` is the name of the task.
 - `model_type` is the PLM used as the discriminator (e.g. RoBERTa).
 
-## Classifier Training
+### Classifier Training
 See the code from the `classification` folder. The example command should be
 ```
 train_cmd="CUDA_VISIBLE_DEVICES=0 python3 main.py --do_train --do_eval --task=${task} \
@@ -78,9 +93,9 @@ echo $train_cmd
 eval $train_cmd
 ```
 
-# Progressive Retrieval
+## Progressive Retrieval
 
-# Generated Dataset
+## Generated Dataset
 The generated dataset can be found at [this Link](https://drive.google.com/drive/folders/1mW91mfNqt5COZcIJg8QMhjMoWjGMyAm-?usp=share_link).
 
 # Reference
