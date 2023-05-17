@@ -307,7 +307,6 @@ class Trainer(object):
 
 
     def save_model(self, stage = 0):
-        # {self.args.model_type}_{self.args.al_method}
         output_dir = os.path.join(
             self.args.output_dir,  f"{self.args.semi_method}", "checkpoint-{}".format(len(self.train_dataset)), "iter-{}".format(stage), f"seed{self.args.train_seed}")
         if not os.path.exists(output_dir):

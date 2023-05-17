@@ -15,8 +15,15 @@ nltk
 
 # Data
 ### Download Corpus
+The corpus can be downloaded at:
+- [This link](https://huggingface.co/datasets/yyu/review_corpus) for reviews.
+- [This link](https://huggingface.co/datasets/yyu/news_corpus) for news.
+- [This link](https://huggingface.co/datasets/yyu/wiki_corpus) for wikipedia.
 
 ### Download Data
+The test set of {AG News, DBPedia, Yahoo, IMDB} can be easily find at huggingface data hub. The test sets for other datasets can be founded at the `test` folder.
+
+
 
 ### Data Format
 
@@ -35,15 +42,21 @@ See the code from the `filter` folder. The example command should be
 ```
 train_cmd="CUDA_VISIBLE_DEVICES=0 python3 inference.py --task=${task} \
 	--unlabel_file=${unlabel_file_used_for_filtering} \
-	--data_dir=${folder_for_data} --seed=${seed} --train_seed=${train_seed} \
-	--cache_dir="${task}/cache" --output_dir=${output_dir} --round=${round} --load_from_prev=1 \
-	--gpu=${gpu} --n_gpu=${n_gpu} \
-	--method=${method} --eval_batch_size=${eval_batch_size} \
+	--data_dir=${folder_for_data}	\
+  --cache_dir="${task}/cache" --output_dir=${output_dir} --round=${round} \
+  --load_from_prev=1 \
+	--gpu=${gpu}  --eval_batch_size=${eval_batch_size} \
 	--max_seq_len=${max_seq_len} --auto_load=0 \
 	--model_type=${model_type}"
 echo $train_cmd
 eval $train_cmd
 ```
+Here
+- `folder_for_data` is the folder of the retrieved data.
+- `unlabel_file_used_for_filtering` is the file name of the retrieved data.
+- `task` is the name of the task.
+- `model_type` is the PLM used as the discriminator (e.g. RoBERTa).
+
 ## Classifier Training
 See the code from the `classification` folder. The example command should be
 ```
@@ -68,7 +81,7 @@ eval $train_cmd
 # Progressive Retrieval
 
 # Generated Dataset
-The generated dataset can be found at 
+The generated dataset can be found at [this Link](https://drive.google.com/drive/folders/1mW91mfNqt5COZcIJg8QMhjMoWjGMyAm-?usp=share_link).
 
 # Reference
 Please kindly cite our paper if you find this repo useful for your research. Thanks!

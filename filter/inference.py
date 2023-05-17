@@ -107,7 +107,6 @@ def main(args):
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("--method", default='clean', type=str, help="which method to use")
     parser.add_argument("--gpu", default='0,1,2,3', type=str, help="which gpu to use")
     parser.add_argument("--n_gpu", default=1, type=int, help="which gpu to use")
 
