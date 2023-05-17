@@ -42,14 +42,22 @@ Example (for SST-2 Dataset):
 # Model 
 ## Contrastive Pretraining Step
 We adapt the code from [COCO-DR](https://github.com/OpenMatch/COCO-DR/tree/main/COCO) for pretraining. Please check the original implementation for details. 
-[TODO]: Will release the pretrained model soon.
+
+**[TODO]**: Will release the pretrained model soon.
 
 ## Retrieval Step
 ### Embedding Generation
 See the code from the  `retrieval` folder, `gen_embedding.sh` for details.
 
 ### Retrieval
-See the code from the  `retrieval` folder, `gen_embedding.sh` for details.
+See the code from  `retrieval/retrieve.py`  for details.
+
+Some Key Hyperparameters:
+- `args.target`: The target dataset used in the experiment.
+- `args.model`: The retrieval model used in this study.
+- `args.corpus_folder/args.corpus_name`: The folder/name of the corpus used (e.g. News, Wiki) in the experiments.
+- `args.topN`: The topN used in KNN search (usually set to 50-100).
+- `args.round`: The retrieval rounds. Set to 0 for the first rounds (using label name/template for retrieval only) and 1,2,... for later rounds.
 
 ## Classification Step
 ### Noisy Data Removal
@@ -58,8 +66,8 @@ See the code from the `filter` folder. The example command should be
 train_cmd="CUDA_VISIBLE_DEVICES=0 python3 inference.py --task=${task} \
 	--unlabel_file=${unlabel_file_used_for_filtering} \
 	--data_dir=${folder_for_data}	\
-  --cache_dir="${task}/cache" --output_dir=${output_dir} --round=${round} \
-  --load_from_prev=1 \
+	--cache_dir="${task}/cache" --output_dir=${output_dir} --round=${round} \
+	--load_from_prev=1 \
 	--gpu=${gpu}  --eval_batch_size=${eval_batch_size} \
 	--max_seq_len=${max_seq_len} --auto_load=0 \
 	--model_type=${model_type}"
@@ -77,8 +85,8 @@ See the code from the `classification` folder. The example command should be
 ```
 train_cmd="CUDA_VISIBLE_DEVICES=0 python3 main.py --do_train --do_eval --task=${task} \
 	--train_file={PATH_FOR_GENERATED_DATASET} \
-  --dev_file={PATH_FOR_GENERATED_VALID_DATASET \
-  --test_file={PATH_FOR_TEST_DATASET \
+	--dev_file={PATH_FOR_GENERATED_VALID_DATASET \
+	--test_file={PATH_FOR_TEST_DATASET \
 	--unlabel_file=unlabeled.json \
 	--data_dir=../datasets/${task}-${label_per_class} --train_seed=${train_seed} \
 	--cache_dir="../datasets/${task}-${label_per_class}/cache" \
@@ -94,6 +102,10 @@ eval $train_cmd
 ```
 
 ## Progressive Retrieval
+It is achieved with a similar way to the previous retrieval step. 
+See the code from  `retrieval/retrieve.py` again for details. 
+The only difference is that you need to set the variable `args.round` to greater than `0`. You also need to set the `prev_retrieve_path_name` and `prev_retrieve_folder` to the path of the documents for the latest retrieval results *after filtering*.
+
 
 ## Generated Dataset
 The generated dataset can be found at [this Link](https://drive.google.com/drive/folders/1mW91mfNqt5COZcIJg8QMhjMoWjGMyAm-?usp=share_link).

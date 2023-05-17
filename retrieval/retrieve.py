@@ -47,7 +47,7 @@ def get_arguments():
         "--gpuid",
         default=0,
         type=int,
-        help="The input data dir. Should contain the cached passage and query files",
+        help="The id of GPU",
     )
 
     parser.add_argument(
@@ -58,10 +58,10 @@ def get_arguments():
     )
 
     parser.add_argument(
-        "--N",
+        "--topN",
         default=20,
         type=int,
-        help="The input data dir. Should contain the cached passage and query files",
+        help="The top-N documents used in KNN",
     )
 
     parser.add_argument(
@@ -104,7 +104,7 @@ label = []
 print("Model Name:", args.model_name)
 
 print("Loading Text")
-with open(f"{args.corpus_folder}/{args.type}.jsonl", 'r') as f:
+with open(f"{args.corpus_folder}/{args.corpus_name}.jsonl", 'r') as f:
     for lines in f:
         lines = json.loads(lines)
         text.append(lines["text"])
@@ -208,34 +208,33 @@ q_embeddings = np.concatenate(q_embeddings, axis = 0)
 
 print("Loading Passage Embedding")
 
-with open(f"{args.corpus_folder}/{args.dataset}/embedding_{args.model}_{args.type}.pkl", 'rb') as handle:
+with open(f"{args.corpus_folder}/{args.dataset}/embedding_{args.model}_{args.corpus_name}.pkl", 'rb') as handle:
     passage_embedding = pickle.load(handle)
 
 print("Calculating FAISS")
 dim = q_embeddings.shape[1]
 faiss.omp_set_num_threads(32)
 cpu_index = faiss.IndexFlatIP(dim)
-topN = args.N
 cpu_index.add(passage_embedding)    
-dev_D, dev_I = cpu_index.search(q_embeddings, topN)
+dev_D, dev_I = cpu_index.search(q_embeddings, args.topN)
 print(dev_I.shape[0])
 import os 
 os.makedirs(f"{args.corpus_folder}/{args.target}", exist_ok = True)
-file_name = f"{args.corpus_folder}/{args.target}/{args.target}_{args.model}_{args.type}_top{topN}_round{args.round}.jsonl" # for saving the retrieved results
+file_name = f"{args.corpus_folder}/{args.target}/{args.target}_{args.model}_{args.corpus_name}_top{args.topN}_round{args.round}.jsonl" # for saving the retrieved results
 
 visited = {}
 
 if args.round == 0:
     with open(file_name, 'w') as f:
         for i in range(dev_I.shape[0]):
-            for j in range(topN):
+            for j in range(args.topN):
                 data = {"_id": int(i), "text": text[dev_I[i][j]], "docid": int(dev_I[i][j]), "sim": "{:.4f}".format(dev_D[i][j])}
                 f.write(json.dumps(data) + '\n')
 
 else:
     with open(file_name, 'w') as f:
         for i in range(dev_I.shape[0]):
-            for j in range(topN):
+            for j in range(args.topN):
                 doc_id = int(dev_I[i][j])
                 doc_embedding = passage_embedding[doc_id].reshape(1, -1)
                 doc_label = id2label[i]
