@@ -43,7 +43,7 @@ Example (for SST-2 Dataset):
 ## Contrastive Pretraining Step
 We adapt the code from [COCO-DR](https://github.com/OpenMatch/COCO-DR/tree/main/COCO) for pretraining. Please check the original implementation for details. 
 
-**[TODO]**: Will release the pretrained model soon.
+**[TODO]**: Will release the pretrained model.
 
 ## Retrieval Step
 ### Embedding Generation
