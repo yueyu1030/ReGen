@@ -1,6 +1,7 @@
 # ReGen
 This is the code repo for our ACL 2023 Findings paper [ReGen: Zero-Shot Text Classification via Training Data Generation with Progressive Dense Retrieval](https://arxiv.org/pdf/2305.10703.pdf).
 
+**Update**: Checkout how to improve ReGen using large language models in our recent [preprint](https://arxiv.org/abs/2306.15895) with [code](https://github.com/yueyu1030/AttrPrompt)!
 
 ## Dependencies
 ```
