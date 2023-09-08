@@ -38,13 +38,16 @@ Example (for SST-2 Dataset):
     {"_id": 1, "text": "Though only 60 minutes long , the film is packed with information and impressions."}
     ...
 }
-
 ```
 # Model 
 ## Contrastive Pretraining Step
 We adapt the code from [COCO-DR](https://github.com/OpenMatch/COCO-DR/tree/main/COCO) for pretraining. Please check the original implementation for details. 
 
-**[TODO]**: Will release the pretrained model.
+**Updated on Sep 7th 2023**: The pretrained model has been released on the HuggingFace:
+
+- News: [yyu/news_contrastive_pretrain](https://huggingface.co/yyu/news_contrastive_pretrain)
+- Wiki: [yyu/wiki_contrastive_pretrain](https://huggingface.co/yyu/wiki_contrastive_pretrain)
+- Review: [yyu/review_contrastive_pretrain](https://huggingface.co/yyu/review_contrastive_pretrain)
 
 ## Retrieval Step
 ### Embedding Generation
